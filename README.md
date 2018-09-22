@@ -29,4 +29,5 @@ sudo apt-get install sqlite3
 ## How to Run
 
 cd into project directory
+
 python3 app.py
