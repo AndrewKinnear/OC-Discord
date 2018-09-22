@@ -2,7 +2,7 @@ import discord
 import sqlite3 as sql
 from contextlib import contextmanager
 
-TOKEN = "EATING SUGAR? NO PAPA!"
+TOKEN = "Humpty Dumpty Sat on a wall..."
 client = discord.Client()
 
 @contextmanager
@@ -58,16 +58,11 @@ async def on_message(message):
     
     if message.content.startswith('!quizme'):
         question = dbLookup("SELECT * FROM quiz ORDER BY RANDOM() LIMIT 1")
-        await client.send_message(message.channel, question[0][1])
-        await client.send_message(message.channel, question[0][2])
-        await client.send_message(message.channel, question[0][3])
-        await client.send_message(message.channel, question[0][4])
-        await client.send_message(message.channel, question[0][5])
+        question_string = f"**NEW QUESTION:** \n \n {question[0][1]} \n \n  {question[0][2]} \n  {question[0][3]} \n  {question[0][4]} \n  {question[0][5]}?"
+        await client.send_message(message.channel, question_string)
         ans = await client.wait_for_message(author=message.author)
 
-        print(question[0][6])
-        print(ans.content)
-        if(ans.content == question[0][6]):
+        if(ans.content.lower() == question[0][6].lower()):
             await client.send_message(message.channel, "That's correct!")
         else:
             await client.send_message(message.channel, "Incorrect. Type !quiz to try again.")
