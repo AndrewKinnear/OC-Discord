@@ -24,3 +24,9 @@ sudo apt-get install -y python3-pip
 pip3 install discord.py
 
 sudo apt-get install sqlite3
+
+
+## How to Run
+
+cd into project directory
+python3 app.py
