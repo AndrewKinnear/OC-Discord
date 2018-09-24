@@ -3,7 +3,7 @@ import sqlite3 as sql
 from contextlib import contextmanager
 import random
 
-TOKEN = "Thanos did nothing wrong
+TOKEN = "do a barell roll"
 client = discord.Client()
 
 @contextmanager
@@ -32,10 +32,26 @@ def dbAlter(query, *args):
         c.execute(query, (args))
         connection.commit()
 
+def userExists(name):
+    try:
+        user_stats = dbLookup("SELECT * FROM user WHERE name = ?", str(name))
+        return True
+    except:
+        dbAlter("INSERT INTO user VALUES (?, ?, ?)", None, str(name), 0)
+        return False
+
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!add'):
+    if message.content.startswith('!xp'):
+        if userExists(message.author):
+            user_stats = dbLookup("SELECT * FROM user WHERE name = ?", str(message.author))  
+            print("Test")
+            await client.send_message(message.channel, f"{message.author} you have {user_stats[0][2]} experience!")
+        else:
+            await client.send_message(message.channel, f"{message.author} you have no experience!")     
+
+    elif message.content.startswith('!add'):
         answers = []
 
         await client.send_message(message.channel, "Multiple Choice, or True or False? (!M or !TF)")
